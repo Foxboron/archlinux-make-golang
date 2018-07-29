@@ -1,0 +1,17 @@
+pkgname={{.Pkgname}}
+pkgver={{.Pkgver}}
+pkgrel=1
+pkgdesc="{{.Description}}"
+url='{{.Url}}'
+arch=('any')
+license=('{{.Lisence}}')
+depends=("{{StringsJoin .Depends " " }})
+makedepends=('git')
+source=('git+https://{{.Repository}}#commit={{.Revision}}')
+sha256sums=('SKIP')
+
+package() {
+    cd {{.DirectoryName}}
+    install -Dm0644 -t "$pkgdir"/usr/share/golang/src/{{.Repository}} *
+    {{if .NonStandardLisence}}install -Dm0644 LICENSE "$pkgdir"/usr/share/licenses/"$pkgname"/LICENSE{{end}}
+}
